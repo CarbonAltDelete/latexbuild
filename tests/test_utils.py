@@ -1,18 +1,20 @@
-import unittest
 import os
+import unittest
+
 from latexbuild.utils import (
-        random_str_uuid,
-        random_name_filepath,
-        list_filepathes_with_predicate,
-        read_file,
-        recursive_apply,
-        )
+    random_str_uuid,
+    random_name_filepath,
+    list_filepathes_with_predicate,
+    recursive_apply,
+)
 
 PATH_FILE = os.path.abspath(__file__)
 PATH_TEST = os.path.dirname(PATH_FILE)
 
+
 class TestRandomStrUuid(unittest.TestCase):
-    '''Test class for random_str_uuid'''
+    """Test class for random_str_uuid"""
+
     def test_correct_length(self):
         l1, l2 = 4, 7
         val1, val2 = random_str_uuid(l1), random_str_uuid(l2)
@@ -21,8 +23,8 @@ class TestRandomStrUuid(unittest.TestCase):
         self.assertEqual(l2, len2)
 
     def test_random(self):
-        l = 7
-        v1, v2 = random_str_uuid(l), random_str_uuid(l)
+        length = 7
+        v1, v2 = random_str_uuid(length), random_str_uuid(length)
         self.assertNotEqual(v1, v2)
 
     def test_below_1(self):
@@ -33,8 +35,10 @@ class TestRandomStrUuid(unittest.TestCase):
         self.assertEqual(32, len(random_str_uuid(32)))
         self.assertRaises(ValueError, random_str_uuid, 33)
 
+
 class TestRandomNameFilepath(unittest.TestCase):
-    '''Test class for random_name_filepath'''
+    """Test class for random_name_filepath"""
+
     PATH = "/hello/world/test.txt"
 
     def test_correct_length(self):
@@ -64,8 +68,10 @@ class TestRandomNameFilepath(unittest.TestCase):
         beg_2 = os.path.splitext(path_2)[0][-len_random:]
         self.assertNotEqual(beg_1, beg_2)
 
+
 class TestListFilepathesWithPredicate(unittest.TestCase):
-    '''Test class for list_filepathes_with_predicate'''
+    """Test class for list_filepathes_with_predicate"""
+
     def test_this_file(self):
         most_of_this_file = PATH_FILE[:-2]
         files = list_filepathes_with_predicate(PATH_TEST, most_of_this_file)
@@ -77,39 +83,50 @@ class TestListFilepathesWithPredicate(unittest.TestCase):
         self.assertEqual(files, [])
 
     def test_invalid_directory(self):
-        self.assertRaises(ValueError, list_filepathes_with_predicate,
-                "notadirectory", "anything")
+        self.assertRaises(
+            ValueError,
+            list_filepathes_with_predicate,
+            "notadirectory",
+            "anything",
+        )
+
 
 class TestReadFile(unittest.TestCase):
-    '''Test class for read_file'''
-    '''This function is too simple to warrant testing at this time'''
+    """Test class for read_file"""
+
+    """This function is too simple to warrant testing at this time"""
     pass
 
+
 class TestRecursiveApply(unittest.TestCase):
-    '''Test class for recursive_apply'''
+    """Test class for recursive_apply"""
 
     def test_nested_objects(self):
         inval = {
-                'hello': {'man': 'woman', 'dog': 'cat'},
-                'world': 'smartiepants',
-                'brownie': [
-                    'flower',
-                    {'sugar': 'bad'},
-                    'chocolate',
-                    ]
-                }
+            "hello": {"man": "woman", "dog": "cat"},
+            "world": "smartiepants",
+            "brownie": [
+                "flower",
+                {"sugar": "bad"},
+                "chocolate",
+            ],
+        }
         expected_outval = {
-                'hello': {'man': 'womanTEST', 'dog': 'catTEST'},
-                'world': 'smartiepantsTEST',
-                'brownie': [
-                    'flowerTEST',
-                    {'sugar': 'badTEST'},
-                    'chocolateTEST',
-                    ]
-                }
-        func = lambda s: s + 'TEST'
-        actual_outval = recursive_apply(inval, lambda s: s + 'TEST')
+            "hello": {"man": "womanTEST", "dog": "catTEST"},
+            "world": "smartiepantsTEST",
+            "brownie": [
+                "flowerTEST",
+                {"sugar": "badTEST"},
+                "chocolateTEST",
+            ],
+        }
+
+        def func(s):
+            return s + "TEST"
+
+        actual_outval = recursive_apply(inval, lambda s: s + "TEST")
         self.assertEqual(actual_outval, expected_outval)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

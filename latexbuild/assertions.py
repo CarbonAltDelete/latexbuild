@@ -10,13 +10,14 @@ import shutil
 import os
 from inspect import isclass
 
+
 def has_file_extension(filepath, ext_required):
-    '''Assert that a filepath has the required file extension
+    """Assert that a filepath has the required file extension
 
     :param filepath: string filepath presumably containing a file extension
     :param ext_required: the expected file extension
         examples: ".pdf", ".html", ".tex"
-    '''
+    """
     ext = os.path.splitext(filepath)[-1]
     if ext != ext_required:
         msg_tmpl = "The extension for {}, which is {}, does not equal {}"
@@ -24,15 +25,16 @@ def has_file_extension(filepath, ext_required):
         raise ValueError(msg_format)
     return True
 
+
 def is_binary(system_binary_str):
-    '''Assert that a string represents a system binary
+    """Assert that a string represents a system binary
 
     Return true if a string represents a system binary
     Raise TypeError if the system_binary_str is not a string
     Raise ValueError if the system_binary_str is not a system binary
 
     :param system_binary_str: STR string representing a system binary
-    '''
+    """
     if not isinstance(system_binary_str, str):
         raise TypeError("{} must be of type STR".format(system_binary_str))
     binary_str = shutil.which(system_binary_str)
@@ -41,8 +43,9 @@ def is_binary(system_binary_str):
         raise ValueError(msg)
     return True
 
+
 def list_is_type(ls, t):
-    '''Assert that a list contains only elements of type t
+    """Assert that a list contains only elements of type t
 
     Return True if list contains elements of type t
     Raise TypeError if t is not a class
@@ -51,7 +54,7 @@ def list_is_type(ls, t):
 
     :param ls: LIST
     :param t: python class
-    '''
+    """
     if not isclass(t):
         raise TypeError("{} is not a class".format(t))
     elif not isinstance(ls, list):

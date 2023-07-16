@@ -12,8 +12,9 @@ in the same directory as the latex file that is being built
 from subprocess import Popen, CalledProcessError, PIPE, STDOUT
 from . import assertions
 
+
 def check_output_cwd(args, cwd, timeout=None):
-    '''Open a subprocess in another working directory
+    """Open a subprocess in another working directory
 
     Raises ValueError if system binary does not exist
     Raises CalledProcessError if the return code is non-zero
@@ -23,12 +24,12 @@ def check_output_cwd(args, cwd, timeout=None):
     :param args: a list of command line arguments for subprocess
     :param cwd: the working directory for the subprocess
     :param timeout: number of seconds before giving up
-    '''
+    """
     assertions.list_is_type(args, str)
     assertions.is_binary(args[0])
     stdout_stderr = []
     with Popen(args, cwd=cwd, stdout=PIPE, stderr=STDOUT) as active_subprocess:
-        for line in iter(active_subprocess.stdout.readline, b''):
+        for line in iter(active_subprocess.stdout.readline, b""):
             line_str = line.decode().strip()
             stdout_stderr.append(line_str)
             print(line_str)

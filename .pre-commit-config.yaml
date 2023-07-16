@@ -1,0 +1,38 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.5
+    hooks:
+      - id: codespell
+        additional_dependencies:
+          - tomli
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-ast
+      - id: check-added-large-files
+      - id: debug-statements
+      - id: name-tests-test
+        args: [ "--pytest-test-first" ]
+        exclude: "fixtures.py"
+      - id: requirements-txt-fixer
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v3.0.0
+    hooks:
+      - id: add-trailing-comma
+        args: [ "--py36-plus" ]
+  - repo: https://github.com/psf/black
+    # Black.
+    rev: '23.7.0'
+    hooks:
+      - id: black
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version.
+    rev: 'v0.0.278'
+    hooks:
+      - id: ruff
