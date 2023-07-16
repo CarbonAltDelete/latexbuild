@@ -27,6 +27,7 @@ def build_pdf(
     path_outfile,
     template_kwargs=None,
     filters: dict[str, Callable] = None,
+    cmd_latex: str = "pdflatex",
 ):
     """Helper function for building a pdf from a latex jinja2 template
 
@@ -43,6 +44,7 @@ def build_pdf(
         template_name,
         template_kwargs,
         filters=filters,
+        cmd_latex=cmd_latex,
     )
     return latex_template_object.build_pdf(path_outfile)
 
@@ -53,6 +55,7 @@ def build_html(
     path_outfile,
     template_kwargs=None,
     filters: dict[str, Callable] = None,
+    cmd_latex: str = "pdflatex",
 ):
     """Helper function for building an html from a latex jinja2 template
 
@@ -69,6 +72,7 @@ def build_html(
         template_name,
         template_kwargs,
         filters=filters,
+        cmd_latex=cmd_latex,
     )
     return latex_template_object.build_html(path_outfile)
 
@@ -79,6 +83,7 @@ def build_docx(
     path_outfile,
     template_kwargs=None,
     filters: dict[str, Callable] = None,
+    cmd_latex: str = "pdflatex",
 ):
     """Helper function for building a docx file from a latex jinja2 template
 
@@ -95,5 +100,6 @@ def build_docx(
         template_name,
         template_kwargs,
         filters=filters,
+        cmd_latex=cmd_latex,
     )
     return latex_template_object.build_docx(path_outfile)

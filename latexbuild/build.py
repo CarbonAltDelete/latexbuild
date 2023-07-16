@@ -44,6 +44,7 @@ class LatexBuild(object):
         template_name,
         template_kwargs=None,
         filters: dict[str, Callable] = None,
+        cmd_latex: str = "pdflatex",
     ):
         # Initialize attributes
         self.path_jinja2 = path_jinja2
@@ -52,6 +53,8 @@ class LatexBuild(object):
         self.path_template = os.path.join(path_jinja2, template_name)
 
         self.filters = filters
+
+        self.cmd_latex = cmd_latex
 
         # Ensure attributes conform to appropriate type, raising error
         # as soon as possible
@@ -100,7 +103,7 @@ class LatexBuild(object):
         if cmd_wo_infile[0] == "latex2rtf" and len(cmd_wo_infile) == 1:
             cmd_docx = cmd_wo_infile + ["-o", path_outfile_initial]
             # Need to run pdf2latex to generate aux file
-            cmd_wo_infile = ["pdflatex"]
+            cmd_wo_infile = [self.cmd_latex]
         else:
             cmd_docx = None
 
@@ -150,7 +153,7 @@ class LatexBuild(object):
         """
         assertions.has_file_extension(path_outfile, ".pdf")
         return self.run_latex(
-            ["pdflatex", "-interaction", "nonstopmode"],
+            [self.cmd_latex, "-interaction", "nonstopmode"],
             path_outfile,
         )
 
