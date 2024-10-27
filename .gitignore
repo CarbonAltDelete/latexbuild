@@ -3,6 +3,8 @@ main.py
 
 # Python environment
 venv/
+.venv/
+
 *.pyc
 __pycache__/
 

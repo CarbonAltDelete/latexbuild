@@ -43,6 +43,7 @@ class LatexBuild(object):
         path_jinja2,
         template_name,
         template_kwargs=None,
+        template_kwargs_unescaped: dict = None,
         filters: dict[str, Callable] = None,
         cmd_latex: str = "pdflatex",
     ):
@@ -50,6 +51,7 @@ class LatexBuild(object):
         self.path_jinja2 = path_jinja2
         self.template_name = template_name
         self.template_kwargs = template_kwargs
+        self.template_kwargs_unescaped = template_kwargs_unescaped
         self.path_template = os.path.join(path_jinja2, template_name)
 
         self.filters = filters
@@ -68,7 +70,8 @@ class LatexBuild(object):
         return render_latex_template(
             self.path_jinja2,
             self.template_name,
-            self.template_kwargs,
+            template_vars=self.template_kwargs,
+            template_vars_unescaped=self.template_kwargs_unescaped,
             filters=self.filters,
         )
 

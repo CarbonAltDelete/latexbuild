@@ -4,11 +4,13 @@ This module provides a template-rendering function for Jinja2
 that overrides Jinja2 defaults to make it work more seamlessly
 with Latex.
 """
+
 from typing import Callable
 
 import jinja2
-from .utils import recursive_apply
+
 from .latex_parse import escape_latex_str_if_str
+from .utils import recursive_apply
 
 ######################################################################
 # J2_ARGS
@@ -36,6 +38,7 @@ def render_latex_template(
     path_templates,
     template_filename,
     template_vars=None,
+    template_vars_unescaped: dict | None = None,
     filters: dict[str, Callable] = None,
 ):
     """Render a latex template, filling in its template variables
@@ -50,6 +53,10 @@ def render_latex_template(
     """
     var_dict = template_vars if template_vars else {}
     var_dict_escape = recursive_apply(var_dict, escape_latex_str_if_str)
+
+    var_dict_unescaped = template_vars_unescaped if template_vars_unescaped else {}
+    var_dict_escape.update(var_dict_unescaped)
+
     j2_env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(path_templates),
         **J2_ARGS,
