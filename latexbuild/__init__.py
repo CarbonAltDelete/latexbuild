@@ -9,6 +9,7 @@ Imports useful functions and classes from other
 modules and provides user-friendly function interfaces for
 building PDF and HTML files from latex jinja2 templates
 """
+
 from typing import Callable
 
 #######################################################################
@@ -26,6 +27,7 @@ def build_pdf(
     template_name,
     path_outfile,
     template_kwargs=None,
+    template_kwargs_unescaped: dict | None = None,
     filters: dict[str, Callable] = None,
     cmd_latex: str = "pdflatex",
 ):
@@ -43,6 +45,7 @@ def build_pdf(
         path_jinja2,
         template_name,
         template_kwargs,
+        template_kwargs_unescaped=template_kwargs_unescaped,
         filters=filters,
         cmd_latex=cmd_latex,
     )
@@ -54,6 +57,7 @@ def build_html(
     template_name,
     path_outfile,
     template_kwargs=None,
+    template_kwargs_unescaped: dict | None = None,
     filters: dict[str, Callable] = None,
     cmd_latex: str = "pdflatex",
 ):
@@ -71,6 +75,7 @@ def build_html(
         path_jinja2,
         template_name,
         template_kwargs,
+        template_kwargs_unescaped=template_kwargs_unescaped,
         filters=filters,
         cmd_latex=cmd_latex,
     )
@@ -82,6 +87,7 @@ def build_docx(
     template_name,
     path_outfile,
     template_kwargs=None,
+    template_kwargs_unescaped: dict | None = None,
     filters: dict[str, Callable] = None,
     cmd_latex: str = "pdflatex",
 ):
@@ -99,6 +105,7 @@ def build_docx(
         path_jinja2,
         template_name,
         template_kwargs,
+        template_kwargs_unescaped=template_kwargs_unescaped,
         filters=filters,
         cmd_latex=cmd_latex,
     )
