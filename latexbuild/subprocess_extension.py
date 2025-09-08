@@ -9,8 +9,12 @@ This is functionality is important for Latex, because:
 in the same directory as the latex file that is being built
 """
 
-from subprocess import Popen, CalledProcessError, PIPE, STDOUT
+import logging
+from subprocess import PIPE, STDOUT, CalledProcessError, Popen
+
 from . import assertions
+
+LOGGER = logging.getLogger("latexbuild.build")
 
 
 def check_output_cwd(args, cwd, timeout=None):
@@ -28,14 +32,23 @@ def check_output_cwd(args, cwd, timeout=None):
     assertions.list_is_type(args, str)
     assertions.is_binary(args[0])
     stdout_stderr = []
-    with Popen(args, cwd=cwd, stdout=PIPE, stderr=STDOUT) as active_subprocess:
+    with Popen(args, cwd=cwd, stdout=PIPE, stderr=PIPE) as active_subprocess:
         for line in iter(active_subprocess.stdout.readline, b""):
             line_str = line.decode().strip()
             stdout_stderr.append(line_str)
             print(line_str)
+
+        for line in iter(active_subprocess.stderr.readline, b""):
+            line_str = line.decode().strip()
+            stdout_stderr.append(line_str)
+            print(line_str)
+
         active_subprocess.wait(timeout=timeout)
         returncode = active_subprocess.returncode
     if returncode != 0:
+        LOGGER.error(
+            f"Subprocess failed with return code {returncode}, output: {'\n'.join(stdout_stderr)}"
+        )
         raise CalledProcessError(returncode, args, output=None)
     else:
         return stdout_stderr
