@@ -24,7 +24,7 @@ from .utils import (
     list_filepathes_with_predicate,
 )
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger("latexbuild.build")
 
 
 class LatexBuild(object):
